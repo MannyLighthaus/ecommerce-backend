@@ -16,11 +16,9 @@ const createProduct = async (req, res) => {
     } = req.body;
 
     if (!title || !price || !category || !image) {
-      return res
-        .status(400)
-        .json({
-          message: "Missing required fields: title, price, category, image",
-        });
+      return res.status(400).json({
+        message: "Missing required fields: title, price, category, image",
+      });
     }
 
     // Create the product
@@ -44,10 +42,19 @@ const createProduct = async (req, res) => {
 // Get all products
 const getAllProducts = async (req, res) => {
   try {
+    // Raw SQL to confirm DB connection
+    const rawResult = await Product.sequelize.query("SELECT * FROM products", {
+      type: Product.sequelize.QueryTypes.SELECT,
+    });
+
+    console.log("✅ Raw SQL result:", rawResult); // See which DB returns results
+
+    // Optional: fallback to Sequelize method
     const products = await Product.findAll();
+
     return res.status(200).json(products); // Return all products
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("❌ Error fetching products:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };

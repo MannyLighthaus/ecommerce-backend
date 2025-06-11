@@ -4,14 +4,21 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config(); // To load environment variables from .env
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: "postgres",
-  }
-);
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: "postgres",
+  protocol: "postgres",
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false, // necessary for some managed DBs like Render
+    },
+  },
+});
 
 module.exports = sequelize;
+
+sequelize
+  .authenticate()
+  .then(() => console.log("✅ Database connected"))
+  .catch((err) => console.error("❌ Unable to connect to the database:", err));
+console.log("Connected to DB:", process.env.DB_URL || process.env.DB_NAME);

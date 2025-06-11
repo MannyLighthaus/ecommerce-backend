@@ -15,10 +15,11 @@ const Order = sequelize.define("Order", {
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    references: {
-      model: User,
-      key: "id", // this ensures an order msut belong to a  user by matching the id with the users id
-    },
+
+    // references: {
+    //   model: User,
+    //   key: "id", // this ensures an order must belong to a  user by matching the id with the users id
+    // },
   },
   // Products array (e.g., [{ productId: 1, price: 25.00, quantity: 2, subtotal: 50.00 }])
   products: {
