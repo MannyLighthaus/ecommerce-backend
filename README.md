@@ -9,6 +9,7 @@ This is the backend server for an e-commerce website. It is built with Node.js, 
 - PostgreSQL
 - Sequelize ORM
 - dotenv
+- Render (Deployment)
 
 ## ⚙️ Getting Started
 
